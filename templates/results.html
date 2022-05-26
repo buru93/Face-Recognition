@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if tipo == 'face' %}
+    <div class="container">
+        <h2 style="text-align: center;">RESULTADOS</h2>
+        {% if res != 0 %}
+        <div class="row">
+            <div class="col-6">
+                <!-- <img src="{{ url_for('display_image', filename=filename) }}" alt="imagen con cuadrado" style="height: 350px;" class="img-fluid"> -->
+                <img src="{{ url_for('display_image', filename=filename) }}" alt="imagen con cuadrado" class="img-fluid">
+            </div>
+            <div class="col-6">
+                <h3>Se han detectado {{res}} caras</h3>
+                {% for i in range(res) %}
+                <h4>Cara {{ i + 1}}:</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">FaceID: {{ id[i] }}</li>
+                    <li class="list-group-item">La cara esta situada en: {{ coord[i] }}</li>
+                    <li class="list-group-item">Emocion: {{ emociones[i] }}</li>
+                    {% for x, y in atr[i].items()%}
+                    <li class="list-group-item">{{x}}: {{ y }}</li>
+                    {% endfor%}
+                </ul>
+                <br>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            <h4>No se han encontrado caras</h4>
+        </div>
+        {% endif %}
+    </div>
+    {% elif tipo == 'image'%}
+    <div class="container">
+        <h2 style="text-align: center;">RESULTADOS</h2>
+        {% if res != 0 %}
+        <div class="row">
+            <div class="col-6">
+                <img src="{{ url_for('display_image', filename=filename) }}" alt="imagen con cuadrado" class="img-fluid">
+            </div>
+            <div class="col-6">
+                <h3>Se han detectado {{ res }} elementos</h3>
+                <ul class="list-group">
+                    <li class="list-group-item">Descripcion de la Imagen: {{ descrp }}</li>
+                    <li class="list-group-item">Color dominante: {{ col }}
+                        <span style="{{sty}}">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    </li>
+                    <a onclick="mostrar()" class="list-group-item list-group-item-action">TAGS
+                        <span class="badge bg-primary rounded-pill" style="float: right;">{{len_tags}}</span>
+                    </a>
+                    <div id="lista" style="display: none;">
+                        {% for x in tag%}
+                            <li class="list-group-item d-flex justify-content-between align-items-cente">tag: {{x}}</li>
+                        {% endfor%}
+                    </div>
+                </ul>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <h2>No se han encontrado caras</h2>
+        </div>
+        {% endif%}
+    </div>
+    {% elif tipo == 'error'%}
+    <div class="alert alert-danger">
+        <p>{{msg}}</p>
+    </div>
+    {% else %}
+    <div class="container">
+        <h2 style="text-align: center;">RESULTADOS</h2>
+        {% for word in text %}
+        {{word}}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="container">
+        <div class="container-fluid align-right mt-5 mb-5">
+            <a class="btn btn-secondary" href="/">Inicio</a>
+        </div>
+    </div>
+    <script>
+        function mostrar() {
+            document.getElementById('lista').style.display = "block";
+        }
+    </script> 
+{% endblock %}
+

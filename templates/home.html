@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form action = "http://localhost:5000/face_recg" method="POST">
+        <div class="form-group">
+            <label for="url">Introducir URL de la imagen</label>
+            <input type="url" name="url" id="url" class="form-control"/>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Procesar Caras</button>
+        <button type="submit" formaction="http://localhost:5000/image_recg" class="btn btn-primary mt-2">Procesar Imagen</button>   
+        <button type="submit" formaction="http://localhost:5000/text_recg" class="btn btn-primary mt-2">Extraer Texto</button>   
+    </form>
+{% endblock %}
